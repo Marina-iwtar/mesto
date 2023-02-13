@@ -12,9 +12,6 @@ closeModal.addEventListener('click',() =>{
   popPup.classList.remove('popup_opened');
 })
  
-
-
-
 let formElement = document.querySelector('.popup__container');
 
 function formSubmitHandler (evt) {

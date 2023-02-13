@@ -2,5 +2,10 @@
   max-width: 282px;
   border-radius: 10px;
   background-color: #ffffff;
-  min-height: 362px;
+  height: 362px;
+}
+@media screen and (max-width: 510px) {
+  .element {
+    height: 361px;
+  }
 }
