@@ -11,4 +11,4 @@
 * Локаьное подключение шрифтов
 * Использование методологии БЭМ
 
-* [Ссылка на мой проект]( https://marina-iwtar.github.io/mesto/)
+* [Ссылка на мой проект]( https://marina-iwtar.github.io/mesto/index.html)
