@@ -1,0 +1,13 @@
+.popup__about-my{
+  box-sizing: border-box;
+  border: 0;
+  border-bottom: 1px solid #000000;
+  max-width: 358px;
+  min-height: 27px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
