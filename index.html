@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="pages/index.css">
-    <title>Document</title>
+    <title>Достопримечательности России</title>
   </head>
   <body class="page">
     <header class="header">
-      <img src="images/logo.png" alt="логотип" class="header__logo">
+      <img src="images/Logo.svg" alt="логотип" class="header__logo">
     </header>
     <main class="content">
       <section class="profile">
@@ -18,12 +18,12 @@
           <div class="profile-info">
             <div class="profile-info__container">
               <h1 class="profile-info__title">Жак-Ив Кусто</h1>
-              <button class="profile-info__edit-button"></button>
+              <button class="profile-info__edit-button" type="button"></button>
             </div>
             <p class="profile-info__paragraph">Исследователь океана</p>
           </div>
         </div>
-        <button class="profile__add-button"></button>
+        <button class="profile__add-button" type="button"></button>
       </section>
 
       <section class="elements" aria-label="карточки достопримечаельностей">
@@ -36,7 +36,7 @@
             <h2 class="element__title">Санкт-Петербург</h2>
             <button
               class="element__vector element__vector_active"
-              type="submit">
+              type="button" >
             </button>
           </div>
         </article>
@@ -50,7 +50,7 @@
             <h2 class="element__title">Красноярск</h2>
             <button
               class="element__vector element__vector_active"
-              type="submit"
+              type="button"
             ></button>
           </div>
         </article>
@@ -63,7 +63,7 @@
             <h2 class="element__title">Камчатка</h2>
             <button
               class="element__vector element__vector_active"
-              type="submit"
+              type="button"
             ></button>
           </div>
         </article>
@@ -76,7 +76,7 @@
             <h2 class="element__title">Гора Эльбрус</h2>
             <button
               class="element__vector element__vector_active"
-              type="submit"
+              type="button"
             ></button>
           </div>
         </article>
@@ -89,7 +89,7 @@
             <h2 class="element__title">Домбай</h2>
             <button
               class="element__vector element__vector_active"
-              type="submit"
+              type="button"
             ></button>
           </div>
         </article>
@@ -102,7 +102,7 @@
             <h2 class="element__title">Карачаево-Черкесская Республика</h2>
             <button
               class="element__vector element__vector_active"
-              type="submit"
+              type="button"
             ></button>
           </div>
         </article>
@@ -113,23 +113,23 @@
     </footer>
     <div class="popup">
       <div class="popup__container">
-        <button class="popup__close"></button>
+        <button class="popup__close" type="button"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form">
+        <form class="popup__form" name="form">
           <input
             type="text"
-            class="popup__name"
-            value="Жак-Ив Кусто"
-            placeholder="имя"> 
+            class="popup__input popup__input_type_name"
+            placeholder="имя"
+            name="name"> 
           <input
             type="text"
-            class="popup__about-my"
-            value="Исследователь океана"
-            placeholder="о себе">
+            class="popup__input popup__input_type_about-my"
+            placeholder="о себе"
+            name="about-my">
           <button type="submit" class="popup__button">Сохранить</button>
         </form>
       </div>
     </div>
-    <script src="scripts/scripts.js"></script>
+    <script src="scripts/index.js"></script>
   </body>
 </html>

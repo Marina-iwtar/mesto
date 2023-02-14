@@ -9,9 +9,8 @@
   overflow: hidden;
   margin: 0;
 }
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 400px) {
   .profile-info__title {
-    /*max-width: 189px;*/
     font-size: 27px;
     line-height: 33px;
     margin: 0 auto;
