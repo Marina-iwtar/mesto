@@ -3,7 +3,7 @@ const editButton = document.querySelector(".profile-info__edit-button");
 const addButton = document.querySelector('.profile__add-button');
 
 //переменные кнопка закрытия попапа
-const popupClose = document.querySelector(".popup__close");
+const popupClose = document.querySelector(".popup__close_profile");
 const popupCloseMesto = document.querySelector(".popup__close_mesto");
 const popupCloseImage = document.querySelector(".popup__close_image");
 
@@ -117,6 +117,7 @@ function createCard(card) {
   cardEl.querySelector('.element__mask-group').addEventListener('click', function (evt){
     const photo = evt.target;
     photoPop.src = photo.src;
+    photoPop.alt = photo.alt; //'здесь изображено ${photo.alt}';
     subtitlePopup.textContent = photo.alt;
 
   openPopup(PopupOpenImage);
