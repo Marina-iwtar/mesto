@@ -27,12 +27,12 @@ function setEventListeners(form, config) {
     });
   });
 }
-//функция, которая разблокирует кнопку
+//функция, которая блокирует кнопку
 function disableButton(submitButton, config) {
   submitButton.classList.remove(config.inactiveButtonClass);
   submitButton.disabled = false;
 }
-//функция, которая заблокирует кнопку
+//функция, которая разблокирует кнопку
 function enableButton(submitButton, config) {
   submitButton.classList.add(config.inactiveButtonClass);
   submitButton.disabled = true;

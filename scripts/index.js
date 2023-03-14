@@ -2,10 +2,8 @@
 const editButton = document.querySelector(".profile-info__edit-button");
 const addButton = document.querySelector(".profile__add-button");
 
-//переменные кнопка закрытия попапа
-const popupCloseProfile = document.querySelector(".popup__close_profile");
-const popupCloseMesto = document.querySelector(".popup__close_mesto");
-const popupCloseImage = document.querySelector(".popup__close_image");
+//поиск всех попапов для закрытия по крестику и оверлею
+const popupAll = document.querySelectorAll('.popup');
 
 //переменные нахождение формы в попапе
 const formElementProfile = document.querySelector(".popup__form_profile");
@@ -35,6 +33,7 @@ const photoPop = popupOpenImage.querySelector(".popup__image");
 const subtitlePopup = popupOpenImage.querySelector(".popup__title-image");
 
 const buttonCard = document.querySelector('.popup__button_type_card');
+const cardTemplate = document.querySelector(".templateEl").content;
 
 const initialCards = [
   {
@@ -71,29 +70,24 @@ const initialCards = [
 //функция открытия модальных окон
 function openPopup(popup) {
   popup.classList.add("popup_opened");
-  popup.addEventListener("click", function (evt) {
-    if (!evt.target.closest(".popup__content")) {
-      closeModal(evt.target.closest(".popup"));
-    }
-  });
+  document.addEventListener('keyup',closePopupEsc); //добавляем слушатель для закртия попапа по esc
   }
 
-document.addEventListener('keydown', function (evt){
+function closePopupEsc(evt){
   if(evt.key === 'Escape'){
     const activPopup = document.querySelector('.popup_opened');
     closeModal(activPopup);      
   }
-});
-
-
-function closeModal(popup) {
-  //функция закрытия модального окна
-  popup.classList.remove("popup_opened");
 }
 
+//функция закрытия модального окна
+function closeModal(popup) {
+  popup.classList.remove("popup_opened");
+  document.removeEventListener('keyup',closePopupEsc);//удаление слушателя для закрытия попапа по esc
+}
 
-function formProfileSubmitHandler(evt) {
-  //функция внесение изменений в строки профиля из формы модального окна
+ //функция внесение изменений в строки профиля из формы модального окна
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
   userAboutMy.textContent = aboutMyInput.value;
@@ -116,7 +110,6 @@ function addCardSabmit(evt) {
 
 //функция обьявления массива
 function createCard(card) {
-  const cardTemplate = document.querySelector(".templateEl").content;
   const cardEl = cardTemplate.querySelector(".element").cloneNode(true);
   cardEl.querySelector(".element__title").textContent = card.name;
   cardEl.querySelector(".element__mask-group").src = card.link;
@@ -158,16 +151,18 @@ function deleteButtonClick(event) {
 initialCards.forEach(function (card) {
   elementsCon.append(createCard(card));
 });
-//событие закрытия по кнопке
-popupCloseProfile.addEventListener("click", function () {
-  closeModal(editPopup);
-});
-popupCloseMesto.addEventListener("click", function () {
-  closeModal(popupAddMesto);
-});
-popupCloseImage.addEventListener("click", function () {
-  closeModal(popupOpenImage);
-});
+//событие закрытия по кнопке и по оверлей
+popupAll.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains('popup_opened')) {
+        closeModal(popup)
+      }
+      if (evt.target.classList.contains('popup__close')) {
+        closeModal(popup)
+      }
+  })
+})
+
 
 //событие открытия по кнопке
 editButton.addEventListener("click", function () {
@@ -177,11 +172,12 @@ editButton.addEventListener("click", function () {
 });
 addButton.addEventListener("click", function () {
   openPopup(popupAddMesto);
+ 
   enableButton(buttonCard, config);
 });
 
 
 
 //собитие добавления данных
-formElementProfile.addEventListener("submit", formProfileSubmitHandler);
+formElementProfile.addEventListener("submit", handleProfileFormSubmit);
 formElMesto.addEventListener("submit", addCardSabmit);
