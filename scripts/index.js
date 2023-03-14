@@ -34,6 +34,8 @@ const elementsCon = document.querySelector(".elements");
 const photoPop = popupOpenImage.querySelector(".popup__image");
 const subtitlePopup = popupOpenImage.querySelector(".popup__title-image");
 
+const buttonCard = document.querySelector('.popup__button_type_card');
+
 const initialCards = [
   {
     name: "Архыз",
@@ -69,12 +71,26 @@ const initialCards = [
 //функция открытия модальных окон
 function openPopup(popup) {
   popup.classList.add("popup_opened");
-}
+  popup.addEventListener("click", function (evt) {
+    if (!evt.target.closest(".popup__content")) {
+      closeModal(evt.target.closest(".popup"));
+    }
+  });
+  }
+
+document.addEventListener('keydown', function (evt){
+  if(evt.key === 'Escape'){
+    const activPopup = document.querySelector('.popup_opened');
+    closeModal(activPopup);      
+  }
+});
+
 
 function closeModal(popup) {
   //функция закрытия модального окна
   popup.classList.remove("popup_opened");
 }
+
 
 function formProfileSubmitHandler(evt) {
   //функция внесение изменений в строки профиля из формы модального окна
@@ -161,7 +177,10 @@ editButton.addEventListener("click", function () {
 });
 addButton.addEventListener("click", function () {
   openPopup(popupAddMesto);
+  enableButton(buttonCard, config);
 });
+
+
 
 //собитие добавления данных
 formElementProfile.addEventListener("submit", formProfileSubmitHandler);
