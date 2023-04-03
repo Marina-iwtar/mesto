@@ -1,3 +1,5 @@
+import {Card} from './Card.js';
+import {FormValidator} from './FormValidator.js';
 //переменные кнопки на открытие попапа
 const editButton = document.querySelector(".profile-info__edit-button");
 const addButton = document.querySelector(".profile__add-button");
@@ -12,7 +14,7 @@ const formElMesto = document.querySelector(".popup__form_mesto");
 //переменные нахождения попапов
 const editPopup = document.querySelector(".popup_profile");
 const popupAddMesto = document.querySelector(".popup_mesto");
-const popupOpenImage = document.querySelector(".popup_image");
+export const popupOpenImage = document.querySelector(".popup_image");
 
 //переменные нахождение тексовых полей в попапах
 const userName = document.querySelector(".profile-info__title");
@@ -33,9 +35,9 @@ const photoPop = popupOpenImage.querySelector(".popup__image");
 const subtitlePopup = popupOpenImage.querySelector(".popup__title-image");
 
 const buttonCard = document.querySelector('.popup__button_type_card');
-const cardTemplate = document.querySelector(".templateEl").content;
+//const cardTemplate = document.querySelector(".templateEl").content;
 
-const initialCards = [
+export const initialCards = [
   {
     name: "Архыз",
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
@@ -68,10 +70,11 @@ const initialCards = [
   },
 ];
 //функция открытия модальных окон
-function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add("popup_opened");
   document.addEventListener('keyup',closePopupEsc); //добавляем слушатель для закртия попапа по esc
-  }
+  
+}
 
 function closePopupEsc(evt){
   if(evt.key === 'Escape'){
@@ -94,6 +97,12 @@ function handleProfileFormSubmit(evt) {
   closeModal(editPopup);
 }
 
+function renderCard(item) {
+  const newCard = new Card(item , '.templateEl');
+  elementsCon.prepend(newCard.generateCard());
+};
+initialCards.forEach(renderCard);
+
 function addCardSabmit(evt) {
   evt.preventDefault();
   const card = {
@@ -104,53 +113,14 @@ function addCardSabmit(evt) {
 
   renderCard(card);
   evt.target.reset();
-
   closeModal(popupAddMesto);
 }
 
-//функция обьявления массива
-function createCard(card) {
-  const cardEl = cardTemplate.querySelector(".element").cloneNode(true);
-  cardEl.querySelector(".element__title").textContent = card.name;
-  cardEl.querySelector(".element__mask-group").src = card.link;
-  cardEl.querySelector(".element__mask-group").alt = card.alt;
-  cardEl
-    .querySelector(".element__vector")
-    .addEventListener("click", function (evt) {
-      evt.target.classList.toggle("element__vector_active");
-    });
-  const buttonDelete = cardEl.querySelector(".element__delete");
-  buttonDelete.addEventListener("click", deleteButtonClick);
-  cardEl
-    .querySelector(".element__mask-group")
-    .addEventListener("click", function (evt) {
-      const photo = evt.target;
-      photoPop.src = photo.src;
-      photoPop.alt = photo.alt;
-      subtitlePopup.textContent = photo.alt;
 
-      openPopup(popupOpenImage);
-    });
 
-  return cardEl;
-}
 
-//функция создания карточки
-const renderCard = (card) => {
-  const cardElement = createCard(card);
-  elementsCon.prepend(cardElement);
-};
-//функция удаления карточки
-function deleteButtonClick(event) {
-  const button = event.target;
-  const card = button.closest(".element");
-  card.remove();
-}
 
-//функция перебора массива и ввывода
-initialCards.forEach(function (card) {
-  elementsCon.append(createCard(card));
-});
+
 //событие закрытия по кнопке и по оверлей
 popupAll.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
@@ -160,8 +130,22 @@ popupAll.forEach((popup) => {
       if (evt.target.classList.contains('popup__close')) {
         closeModal(popup)
       }
+    
   })
 })
+export const config = {
+  formSelector: ".popup__form", //селектор формы
+  inputSelector: ".popup__input", //селектор инпутов внутри этой формы
+  submitButtonSelector: ".popup__button", //селектор кнопки сабмита этой формы
+  inactiveButtonClass: "popup__button_disabled", //класс модификатора для дизэйбла этой формы
+  inputErrorClass: "popup__input_type_error", //класс модификатора для инпутов при возникн ошибки
+  errorClass: "popup__input-error_visible",
+};
+const profileValidator = new FormValidator(config, formElementProfile);
+profileValidator.enableValidation();
+
+const mestoValidator = new FormValidator(config, formElMesto);
+mestoValidator.enableValidation();
 
 
 //событие открытия по кнопке
@@ -169,11 +153,14 @@ editButton.addEventListener("click", function () {
   nameInput.value = userName.textContent;
   aboutMyInput.value = userAboutMy.textContent;
   openPopup(editPopup);
+  profileValidator.clearInputError();
 });
+
 addButton.addEventListener("click", function () {
   openPopup(popupAddMesto);
  
-  enableButton(buttonCard, config);
+  mestoValidator.enableButton(buttonCard, config);
+ 
 });
 
 
