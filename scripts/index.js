@@ -1,11 +1,15 @@
-import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js';
+import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 //переменные кнопки на открытие попапа
 const editButton = document.querySelector(".profile-info__edit-button");
 const addButton = document.querySelector(".profile__add-button");
 
+//переменные для попап с картинкой
+export const popupImage = document.querySelector(".popup__image");
+export const popupTitle = document.querySelector(".popup__title-image");
+
 //поиск всех попапов для закрытия по крестику и оверлею
-const popupAll = document.querySelectorAll('.popup');
+const popupAll = document.querySelectorAll(".popup");
 
 //переменные нахождение формы в попапе
 const formElementProfile = document.querySelector(".popup__form_profile");
@@ -31,65 +35,58 @@ const linkInput = document.querySelector(".popup__input_type_link");
 const elementsCon = document.querySelector(".elements");
 
 //переменные полей попап картинки
-const photoPop = popupOpenImage.querySelector(".popup__image");
-const subtitlePopup = popupOpenImage.querySelector(".popup__title-image");
+export const photoPop = popupOpenImage.querySelector(".popup__image");
+export const subtitlePopup = popupOpenImage.querySelector(".popup__title-image");
 
-const buttonCard = document.querySelector('.popup__button_type_card');
-//const cardTemplate = document.querySelector(".templateEl").content;
+const buttonCard = document.querySelector(".popup__button_type_card");
 
-export const initialCards = [
+
+const initialCards = [
   {
     name: "Архыз",
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-    alt: "Архыз",
   },
   {
     name: "Челябинская область",
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-    alt: "Челябинская область",
   },
   {
     name: "Иваново",
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-    alt: "Иваново",
   },
   {
     name: "Камчатка",
     link: "images/Kamchatka.jpg",
-    alt: "Камчатка",
   },
   {
     name: "Холмогорский район",
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-    alt: "Холмогорский район",
   },
   {
     name: "Санкт-Петербург",
     link: "images/SaintPeterburg.jpg",
-    alt: "Санкт-Петербург",
   },
 ];
 //функция открытия модальных окон
 export function openPopup(popup) {
   popup.classList.add("popup_opened");
-  document.addEventListener('keyup',closePopupEsc); //добавляем слушатель для закртия попапа по esc
-  
+  document.addEventListener("keyup", closePopupEsc); //добавляем слушатель для закртия попапа по esc
 }
 
-function closePopupEsc(evt){
-  if(evt.key === 'Escape'){
-    const activPopup = document.querySelector('.popup_opened');
-    closeModal(activPopup);      
+function closePopupEsc(evt) {
+  if (evt.key === "Escape") {
+    const activPopup = document.querySelector(".popup_opened");
+    closeModal(activPopup);
   }
 }
 
 //функция закрытия модального окна
 function closeModal(popup) {
   popup.classList.remove("popup_opened");
-  document.removeEventListener('keyup',closePopupEsc);//удаление слушателя для закрытия попапа по esc
+  document.removeEventListener("keyup", closePopupEsc); //удаление слушателя для закрытия попапа по esc
 }
 
- //функция внесение изменений в строки профиля из формы модального окна
+//функция внесение изменений в строки профиля из формы модального окна
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
@@ -97,10 +94,15 @@ function handleProfileFormSubmit(evt) {
   closeModal(editPopup);
 }
 
+function createCard(item) {
+  const newCard = new Card(item, ".templateEl");
+  return newCard.generateCard();
+}
+
 function renderCard(item) {
-  const newCard = new Card(item , '.templateEl');
-  elementsCon.prepend(newCard.generateCard());
-};
+  const cardElement = createCard(item);
+  elementsCon.prepend(cardElement);
+}
 initialCards.forEach(renderCard);
 
 function addCardSabmit(evt) {
@@ -116,24 +118,18 @@ function addCardSabmit(evt) {
   closeModal(popupAddMesto);
 }
 
-
-
-
-
-
 //событие закрытия по кнопке и по оверлей
 popupAll.forEach((popup) => {
-  popup.addEventListener('mousedown', (evt) => {
-      if (evt.target.classList.contains('popup_opened')) {
-        closeModal(popup)
-      }
-      if (evt.target.classList.contains('popup__close')) {
-        closeModal(popup)
-      }
-    
-  })
-})
-export const config = {
+  popup.addEventListener("mousedown", (evt) => {
+    if (evt.target.classList.contains("popup_opened")) {
+      closeModal(popup);
+    }
+    if (evt.target.classList.contains("popup__close")) {
+      closeModal(popup);
+    }
+  });
+});
+const config = {
   formSelector: ".popup__form", //селектор формы
   inputSelector: ".popup__input", //селектор инпутов внутри этой формы
   submitButtonSelector: ".popup__button", //селектор кнопки сабмита этой формы
@@ -147,7 +143,6 @@ profileValidator.enableValidation();
 const mestoValidator = new FormValidator(config, formElMesto);
 mestoValidator.enableValidation();
 
-
 //событие открытия по кнопке
 editButton.addEventListener("click", function () {
   nameInput.value = userName.textContent;
@@ -158,12 +153,9 @@ editButton.addEventListener("click", function () {
 
 addButton.addEventListener("click", function () {
   openPopup(popupAddMesto);
- 
-  mestoValidator.enableButton(buttonCard, config);
- 
+
+  mestoValidator.clearInputError();
 });
-
-
 
 //собитие добавления данных
 formElementProfile.addEventListener("submit", handleProfileFormSubmit);

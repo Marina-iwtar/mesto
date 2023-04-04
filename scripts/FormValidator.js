@@ -1,4 +1,3 @@
-import {config} from './index.js';
 export class FormValidator {
   constructor(config, form) {
     this.config = config;
@@ -9,14 +8,10 @@ export class FormValidator {
     this._submitButton = form.querySelector(this.config.submitButtonSelector);
   }
 
-  enableValidation(config) {
-    const formList = Array.from(
-      document.querySelectorAll(this.config.formSelector)
-    );
+  enableValidation() {
 
-    formList.forEach((form) => {
-      this._setEventListeners(form, config);
-    });
+    this._setEventListeners();
+
   }
   _setEventListeners() {
     this._inputList.forEach((input) => {
