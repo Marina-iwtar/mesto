@@ -1,11 +1,21 @@
-import { openPopup, popupOpenImage, photoPop, subtitlePopup } from "./index.js";
+//import { openPopup, popupOpenImage, photoPop, subtitlePopup } from "./index.js";
+//import {PopupWithImage} from '../components/PopupWithImage.js';
 export class Card {
-  constructor(initialCards, templateSelector) {
+  constructor(initialCards, templateSelector, {handleCardClick}) {
     this._name = initialCards.name;
     this._link = initialCards.link;
     this._alt = initialCards.name;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
+
+
+  /*handleCardClick() {
+    photoPop.src = this._link;
+    photoPop.alt = this._alt;
+    subtitlePopup.textContent = this._name;
+    openPopup(popupOpenImage);
+  }*/
   _getTemplate() {
     const cardEl = document
       .querySelector(this._templateSelector)
@@ -14,7 +24,6 @@ export class Card {
 
     return cardEl;
   }
-
   _handleCardLike() {
     this._likeButton.classList.toggle("element__vector_active");
   }
@@ -22,14 +31,7 @@ export class Card {
     this._element.remove();
     this._element = null;
   }
-
-  _handleCardClick() {
-    photoPop.src = this._link;
-    photoPop.alt = this._alt;
-    subtitlePopup.textContent = this._name;
-
-    openPopup(popupOpenImage);
-  }
+  
 
   _setEventListeners() {
     this._likeButton.addEventListener("click", () => {
@@ -39,7 +41,7 @@ export class Card {
       this._handleDeleteCard();
     });
     this._cardPicture.addEventListener("click", () => {
-      this._handleCardClick();
+      this._handleCardClick(this._name, this._link);
     });
   }
   generateCard() {
