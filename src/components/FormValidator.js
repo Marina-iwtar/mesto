@@ -9,9 +9,7 @@ export class FormValidator {
   }
 
   enableValidation() {
-
     this._setEventListeners();
-
   }
   _setEventListeners() {
     this._inputList.forEach((input) => {
