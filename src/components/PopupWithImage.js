@@ -11,10 +11,4 @@ export class PopupWithImage extends Popup {
     this._subtitlePopup.textContent = name;
     super.open();
   }
-  close() {
-    super.close();
-  }
-  setEventListeners() {
-    super.setEventListeners();
-  }
 }
