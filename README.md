@@ -20,4 +20,4 @@
 
 
 
-* [Ссылка на мой проект]( https://marina-iwtar.github.io/mesto/index.html)
+* [Ссылка на мой проект]( https://marina-iwtar.github.io/mesto)
