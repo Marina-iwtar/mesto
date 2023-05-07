@@ -7,11 +7,11 @@ export class FormValidator {
     );
     this._submitButton = form.querySelector(this.config.submitButtonSelector);
   }
-
+ //const config={зесь наш обьект}
   enableValidation() {
-    this._setEventListeners();
+    this._setEventListeners();//а здесь форму
   }
-  _setEventListeners() {
+  _setEventListeners() {//здесь если не ошиб.находим инпутлист и кнопку
     this._inputList.forEach((input) => {
       input.addEventListener("input", () => {
         this._checkInputValidaty(input);
@@ -43,26 +43,26 @@ export class FormValidator {
       this._hideInputError(input);
     }
   }
-  _hasInvalidInput() {
+  _hasInvalidInput() {//проверка валидности инпутов
     return this._inputList.some((input) => !input.validity.valid);
   }
-  disableButton() {
+  disableButton() {//это тоже кнопка, this убираешь, из конфига так вызываем что нам надо
     this._submitButton.classList.remove(this.config.inactiveButtonClass);
     this._submitButton.disabled = false;
   }
-  enableButton() {
+  enableButton() { //это относится к кнопке , у меня названия перепутаны:)
     this._submitButton.classList.add(this.config.inactiveButtonClass);
     this._submitButton.disabled = true;
   }
-  _toggleButtonState() {
+  _toggleButtonState() {//здесь условие, если оно выполнено то разблокируем кнопку. если нет тто заблокир
     if (this._hasInvalidInput()) {
       this.enableButton();
     } else {
       this.disableButton();
     }
   }
-  clearInputError() {
-    this._inputList.forEach((input) => {
+  clearInputError() { //это функция очищает ошибки в инпутах при повторном открытии и блокирует кнопку
+    this._inputList.forEach((input) => {//добавляем ко всем попапам
       this._hideInputError(input);
     });
     this._toggleButtonState();

@@ -4,27 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--<link rel="stylesheet" href="pages/index.css" />-->
+    <!--<link rel="stylesheet" href="pages/index.css" <%=require('./images/avatar.jpg')%>/>-->
     <title>Достопримечательности России</title>
   </head>
   <body class="page">
     <header class="header">
-      <img src="<%=require('./images/Logo.svg')%>" alt="логотип" class="header__logo" />
+      <img
+        src="<%=require('./images/Logo.svg')%>"
+        alt="логотип"
+        class="header__logo"
+      />
     </header>
     <main class="content">
       <section class="profile">
         <div class="profile__container">
-          <img src="<%=require('./images/avatar.jpg')%>" alt="аватар" class="profile__avatar" />
+          <button
+            class="profile__pencil"
+            type="button"
+            aria-label="кнопка смены аватара"
+          >
+            <img src="#" alt="аватар" class="profile__avatar" />
+          </button>
           <div class="profile-info">
             <div class="profile-info__container">
-              <h1 class="profile-info__title">Жак-Ив Кусто</h1>
+              <h1 class="profile-info__title"></h1>
               <button
                 class="profile-info__edit-button"
                 type="button"
                 aria-label="кнопка редактирования"
               ></button>
             </div>
-            <p class="profile-info__paragraph">Исследователь океана</p>
+            <p class="profile-info__paragraph"></p>
           </div>
         </div>
         <button
@@ -46,11 +56,14 @@
           ></button>
           <div class="element__group">
             <h2 class="element__title"></h2>
-            <button
-              class="element__vector"
-              type="button"
-              aria-label="кнопка лайк"
-            ></button>
+            <div class="element__like">
+              <button
+                class="element__vector"
+                type="button"
+                aria-label="кнопка лайк"
+              ></button>
+              <span class="element__counter">0</span>
+            </div>
           </div>
         </article>
       </template>
@@ -76,7 +89,7 @@
               class="popup__input popup__input_type_name"
               placeholder="Имя"
               id="name-input"
-              name = "form-name"
+              name="name"
               minlength="2"
               maxlength="40"
               required
@@ -87,7 +100,7 @@
               class="popup__input popup__input_type_about-my"
               placeholder="О себе"
               id="aboutMy-input"
-              name = "form-occupation"
+              name="about"
               minlength="2"
               maxlength="200"
               required
@@ -118,7 +131,7 @@
               class="popup__input popup__input_type_name-mesto"
               placeholder="Название"
               id="place-input"
-              name = "place"
+              name="name"
               minlength="2"
               maxlength="30"
               required
@@ -129,12 +142,12 @@
               class="popup__input popup__input_type_link"
               placeholder="Ссылка на картинку"
               id="link-input"
-              name = "link"
+              name="link"
               required
             />
             <span class="popup__input-error link-input-error"></span>
             <button type="submit" class="popup__button popup__button_type_card">
-              Сохранить
+              Создать
             </button>
           </form>
         </div>
@@ -154,6 +167,57 @@
         </div>
       </div>
     </div>
+
+    <div class="popup popup_avatar">
+      <div class="popup__content">
+        <div class="popup__container popup__container_avatar">
+          <button
+            class="popup__close popup__close_avatar"
+            type="button"
+            aria-label="кнопка закрытия модального окна"
+          ></button>
+          <h2 class="popup__title popup__title_avatar">Обновить аватар</h2>
+          <form
+            class="popup__form popup__form_avatar"
+            name="form-avatar"
+            novalidate
+          >
+            <input
+              type="url"
+              class="popup__input popup__input_type_url"
+              placeholder="Ссылка на картинку"
+              id="url-input"
+              name="avatar"
+              required
+            />
+            <span class="popup__input-error url-input-error"></span>
+            <button type="submit" class="popup__button popup__button_type_card">
+              Сохранить
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="popup popup_delete">
+      <div class="popup__container popup__container_delete">
+        <button
+          class="popup__close popup__close_delete"
+          type="button"
+          aria-label="кнопка закрытия модального окна"
+        ></button>
+        <h2 class="popup__title popup__title_delete">Вы уверенны?</h2>
+        <form
+          class="popup__form popup__form_delete"
+          name="form-avatar"
+          novalidate
+        >
+          <button type="submit" class="popup__button popup__button_type_delete">
+            Да
+          </button>
+        </form>
+      </div>
+    </div>
+
     <!--<script type="module" src="pages/index.js"></script>-->
   </body>
 </html>
