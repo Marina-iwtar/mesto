@@ -39,9 +39,6 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-/*const userId = api.userData()
-.then((res)=>res._id)
-.catch((err) => console.error(`Ошибка:${err}`));*/
 
 //добавление карточек в массив
 const newCards = new Section(
@@ -53,26 +50,11 @@ const newCards = new Section(
   },
   ".elements"
 );
-//запрос карточек с сервера и вывод на страницу
-api
-  .getInitialCards()
-  .then((cards) => {
-    newCards.renderItems(cards);
-  })
-  .catch((err) => {
-    console.error(`Ошибка:${err}`);
-  });
-/*Promise.all([api.getInitialCards()]).then(([cards])=>{newCards.renderItems(cards);
+Promise.all([api.getUserData(),api.getInitialCards()]).then(([res,cards])=>{
+  userInfo.setUserInfo(res);
+  newCards.renderItems(cards);
 })
-.catch(err=>console.log(err))*/
-/*const like = api.likeCard()
-.then(res =>{
-   
-})
-.catch((err) => console.error(`Ошибка:${err}`));*/
-
-//api.likeCard("64512c3a2e0f4800276b2e9d");
-//api.dislikeCard("64512c3a2e0f4800276b2e9d");
+.catch(err=>console.log(err));
 
 //создание карточек
 function createCard(cards) {
@@ -105,10 +87,6 @@ function createCard(cards) {
             });
         }
       },
-      /*:(card)=>{
-      popupWithConfirmation.open();
-      popupWithConfirmation.setCard(card);
-    }*/
     },
     handleDeleteCard
   );
@@ -116,27 +94,16 @@ function createCard(cards) {
 }
 const popupWithImage = new PopupWithImage(".popup_image");
 popupWithImage.setEventListeners();
-//проверка запроса с сервера данные для профиля
-/*api.editProfile({
-  name:'Tomas',
-  about:'bris'
-});*/
-
-//api.addNewCard('Ромашка55','https://www.imgonline.com.ua/examples/bee-on-daisy.jpg');
 //добавление карточек на сттраницу через попап
 const popupWithFormMesto = new PopupWithForm(".popup_mesto", {
   handleSubmitForms: (item) => {
-    //const card = createCard(item);
-    // newCards.addItem(card);
-    // newCards.addItem(createCard({ name: item.place, link: item.link }));
+    popupWithFormMesto.renderLoading(true);
     api
       .addNewCard(item.name, item.link)
       .then((res) => {
         const card = createCard(res);
         newCards.addItem(card);
-        popupWithFormMesto.renderLoading(true);
         popupWithFormMesto.close();
-        //popupWithFormMesto.renderLoading(true);
       })
       .catch((err) => console.error(`Ошибка:${err}`))
       .finally(() => {
@@ -158,25 +125,19 @@ const userInfo = new UserInfo({
   avatar: ".profile__avatar",
 });
 //запрос с сервера данных и вставить их в профиль, начальные данные
-api
-  .userData()
-  .then((res) => userInfo.setUserInfo(res))
-  .catch((err) => console.error(`Ошибка:${err}`));
+
 //редактирование профиля через попап
 const popupWithFormProfile = new PopupWithForm(".popup_profile", {
   handleSubmitForms: (data) => {
-    //popupWithFormProfile.renderLoading(true);
+    popupWithFormProfile.renderLoading(true);
     api
       .editProfile(data)
       .then((res) => {
         userInfo.setUserInfo(res);
-        //popupWithFormProfile.renderLoadingTrue();
-        popupWithFormProfile.renderLoading(true);
         popupWithFormProfile.close();
       })
       .catch((err) => console.error(`Ошибка:${err}`))
       .finally(() => {
-        //popupWithFormProfile.renderLoadingFalse()
         popupWithFormProfile.renderLoading(false);
       });
   },
@@ -193,16 +154,16 @@ editButton.addEventListener("click", function () {
 //редактирования аватара через попап
 const popupWithFormAvatar = new PopupWithForm(".popup_avatar", {
   handleSubmitForms: (data) => {
+    popupWithFormAvatar.renderLoading(true);
     api
       .editAvatar(data)
       .then((res) => {
         userInfo.setUserInfo(res);
-        popupWithFormAvatar.renderLoading(true);
+
         popupWithFormAvatar.close();
       })
       .catch((err) => console.error(`Ошибка:${err}`))
       .finally(() => {
-        //popupWithFormProfile.renderLoadingFalse()
         popupWithFormAvatar.renderLoading(false);
       });
   },
@@ -214,16 +175,6 @@ pencilOverlay.addEventListener("click", function () {
   popupWithFormAvatar.open();
 });
 
-/*const popupWithConfirmation = new PopupWithConfirmation(".popup_delete", {
-  handleSubmitForms: (card,cardId) => {
-    api.removeCard(cardId)
-    .then((res)=>{
-      card.removeCard(res);
-      popupWithConfirmation.close();
-    })
-    .catch((err) => console.error(`Ошибка:${err}`));
-  },
-});*/
 const popupWithConfirmation = new PopupWithConfirmation(".popup_delete");
 popupWithConfirmation.setEventListeners();
 const handleDeleteCard = (card) => {
@@ -241,6 +192,3 @@ const handleDeleteCard = (card) => {
   popupWithConfirmation.open();
 };
 
-/*buttonDelete.addEventListener("click",()=>{
-  popupWithConfirmation.open();
-});*/

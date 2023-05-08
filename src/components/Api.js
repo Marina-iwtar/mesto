@@ -9,7 +9,7 @@ export class Api {
     }
     return Promise.reject(`Ошибка: ${res.status}`);
   }
-  userData() {
+  getUserData() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
       headers: this._headers,
@@ -39,16 +39,7 @@ export class Api {
       }),
     }).then((res) => this._sendingRequest(res));
   }
-  /*editProfile(name,about) {
-    return fetch(`${this._url}/users/me`,{
-      method:"PATCH",
-      headers: this._headers,
-      body:JSON.stringify({name, about})
-    })
-    .then((res)=> this._sendingRequest(res));
-  }*/
-
-  editAvatar(data) {
+   editAvatar(data) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
